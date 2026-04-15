@@ -60,7 +60,7 @@ export async function POST(request: Request) {
   try {
     const message = await client.messages.create({
       model: "claude-sonnet-4-6",
-      max_tokens: 1024,
+      max_tokens: 4096,
       system,
       messages: [{ role: "user", content: user }],
     });
@@ -75,9 +75,13 @@ export async function POST(request: Request) {
   }
 
   // ── Parse model JSON ──────────────────────────────────────────────────────
+  // Strip markdown code fences if the model wraps the JSON (e.g. ```json ... ```)
+  const fenceMatch = rawContent.match(/```(?:json)?\s*([\s\S]*?)\s*```/i);
+  const stripped = fenceMatch ? fenceMatch[1].trim() : rawContent.trim();
+
   let parsed_output: unknown;
   try {
-    parsed_output = JSON.parse(rawContent);
+    parsed_output = JSON.parse(stripped);
   } catch {
     return Response.json(
       { error: "Model returned invalid JSON.", raw: rawContent },
