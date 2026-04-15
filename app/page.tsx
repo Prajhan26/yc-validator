@@ -190,6 +190,13 @@ export default function Home() {
               {submitting ? "Evaluating..." : "Evaluate my idea"}
             </button>
 
+            {/* Loading hint */}
+            {submitting && (
+              <p className="text-center text-xs text-zinc-400">
+                This usually takes 15–20 seconds. Please don't close the page.
+              </p>
+            )}
+
           </form>
         )}
 
