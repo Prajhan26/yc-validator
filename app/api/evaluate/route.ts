@@ -84,7 +84,7 @@ export async function POST(request: Request) {
     parsed_output = JSON.parse(stripped);
   } catch {
     return Response.json(
-      { error: "Model returned invalid JSON.", raw: rawContent },
+      { error: "Model returned invalid JSON." },
       { status: 502 }
     );
   }
@@ -98,6 +98,43 @@ export async function POST(request: Request) {
     );
   }
 
+  // ── Hard rule enforcement ─────────────────────────────────────────────────
+  // Post-parse correction pass — enforces locked hard rules regardless of what
+  // the model returned. Schema-valid output can still violate these rules.
+  const output = { ...validated.data };
+  const scores = { ...output.dimension_scores };
+
+  // Rule: technical product with no technical founder → founder_fit capped at 3
+  if (input.is_technical === false && scores.founder_fit.score > 3) {
+    scores.founder_fit = { ...scores.founder_fit, score: 3 };
+  }
+
+  // Rule: traction claimed but no concrete numbers and not pre-launch → traction_and_evidence capped at 3
+  const hasConcreteNumbers = /\d/.test(input.startup_description);
+  const isPreLaunch = input.stage === "idea";
+  if (!hasConcreteNumbers && !isPreLaunch && scores.traction_and_evidence.score > 3) {
+    scores.traction_and_evidence = { ...scores.traction_and_evidence, score: 3 };
+  }
+
+  // Rule: product description unclear (solution_clarity already scored low by model) —
+  // if solution_clarity is 3 or below in model output, respect it; no override needed.
+  // If startup_description is under 15 words, cap solution_clarity at 3.
+  const wordCount = input.startup_description.trim().split(/\s+/).length;
+  if (wordCount < 15 && scores.solution_clarity.score > 3) {
+    scores.solution_clarity = { ...scores.solution_clarity, score: 3 };
+  }
+
+  // Rule: if founder claims no competitors, ensure a major concern is present
+  const noCompetitorClaim = /no competitor|no competition|no one else|first in the world|only (one|product|solution)/i
+    .test(input.startup_description);
+  const concerns = [...output.major_concerns];
+  if (noCompetitorClaim && !concerns.some((c) => /competitor|market|competition/i.test(c))) {
+    concerns.push("Founder claims no competitors exist — this is rarely true and suggests limited market research.");
+  }
+
+  output.dimension_scores = scores;
+  output.major_concerns = concerns.slice(0, 5);
+
   // ── Return response ───────────────────────────────────────────────────────
-  return Response.json(validated.data);
+  return Response.json(output);
 }
