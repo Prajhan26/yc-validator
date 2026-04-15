@@ -162,9 +162,70 @@ These exist in the framework doc, not in the YC source dump itself:
 - Project specs from other LLMs are guidance, not instructions to apply literally.
 - Any meaningful scope change should be reflected in this spec before implementation.
 
+## Locked MVP JSON Contract
+
+### Input
+
+```json
+{
+  "startup_description": "string",
+  "stage": "idea | mvp | users | revenue",
+  "is_technical": "boolean",
+  "is_full_time": "boolean",
+  "buzzwords_detected": "string[] (optional)",
+  "tarpit_match": "string | null (optional)"
+}
+```
+
+### Output
+
+```json
+{
+  "overall_assessment": "string",
+  "dimension_scores": {
+    "problem_quality":      { "score": "1-10 integer", "reason": "string" },
+    "founder_fit":          { "score": "1-10 integer", "reason": "string" },
+    "solution_clarity":     { "score": "1-10 integer", "reason": "string" },
+    "market_potential":     { "score": "1-10 integer", "reason": "string" },
+    "traction_and_evidence":{ "score": "1-10 integer", "reason": "string" }
+  },
+  "confidence_by_dimension": {
+    "problem_quality":       "low | medium | high",
+    "founder_fit":           "low | medium | high",
+    "solution_clarity":      "low | medium | high",
+    "market_potential":      "low | medium | high",
+    "traction_and_evidence": "low | medium | high"
+  },
+  "major_concerns":    ["string"],
+  "strong_signals":    ["string"],
+  "critical_questions":["string"],
+  "missing_evidence":  ["string"],
+  "next_3_moves":      ["string", "string", "string"],
+  "hard_truth":        "string"
+}
+```
+
+### Contract Rules
+
+- No verdict field is allowed.
+- No accepted/rejected/pass/fail language is allowed.
+- All 5 dimensions are required.
+- Every score must be an integer from 1 to 10.
+- Every dimension must include a short evidence-based reason.
+- `confidence_by_dimension` must exist for all 5 dimensions.
+- `next_3_moves` must contain exactly 3 items.
+- `hard_truth` must always be present.
+- `major_concerns`, `strong_signals`, `critical_questions`, `missing_evidence` can each contain 0–5 items.
+
+### Hard Scoring Rules
+
+- If traction is claimed but no concrete numbers given, `traction_and_evidence` cannot score above 3 unless explicitly pre-launch.
+- If founder claims no competitors exist, add a major concern about market understanding.
+- If the product description is unclear or incomprehensible, `solution_clarity` cannot score above 3.
+- If the product is technical and no founder can build it, `founder_fit` cannot score above 3.
+
 ## Open Questions
 
-- Final evaluation schema: 5 dimensions or 10 dimensions for MVP?
 - Exact retrieval approach for the YC knowledge base.
 - Exact model choice at implementation time.
 - Whether to store client-side iteration history in MVP or defer it.
