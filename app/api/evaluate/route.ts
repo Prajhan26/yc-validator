@@ -95,8 +95,5 @@ export async function POST(request: Request) {
   }
 
   // ── Return response ───────────────────────────────────────────────────────
-  return Response.json({
-    ...validated.data,
-    _warnings: heuristics.warnings,
-  });
+  return Response.json(validated.data);
 }
