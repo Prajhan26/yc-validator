@@ -58,8 +58,11 @@ HARD RULES you must follow when scoring:
 
 function buildUser(input: EvalInput): string {
   const lines: string[] = [
-    `Startup description: ${input.startup_description}`,
+    `What the company does: ${input.company_description}`,
+    `Problem being solved and who has it: ${input.problem_description}`,
+    `Why this founder: ${input.founder_context}`,
     `Stage: ${input.stage}`,
+    `Competitors and insight: ${input.competitors}`,
     `Technical founder: ${input.is_technical ? "yes" : "no"}`,
     `Full-time: ${input.is_full_time ? "yes" : "no"}`,
   ];

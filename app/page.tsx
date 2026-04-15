@@ -8,10 +8,13 @@ import type { EvalOutput } from "../lib/evaluator/schema";
 type Stage = "idea" | "mvp" | "users" | "revenue";
 
 interface FormState {
-  startup_description: string;
-  stage: Stage;
-  is_technical: boolean;
-  is_full_time: boolean;
+  company_description: string;
+  problem_description: string;
+  founder_context:     string;
+  stage:               Stage;
+  competitors:         string;
+  is_technical:        boolean;
+  is_full_time:        boolean;
 }
 
 // ── Constants ─────────────────────────────────────────────────────────────────
@@ -35,8 +38,11 @@ const DIMENSION_LABELS: Record<string, string> = {
 
 export default function Home() {
   const [form, setForm] = useState<FormState>({
-    startup_description: "",
+    company_description: "",
+    problem_description: "",
+    founder_context:     "",
     stage:               "idea",
+    competitors:         "",
     is_technical:        false,
     is_full_time:        true,
   });
@@ -49,8 +55,21 @@ export default function Home() {
 
   async function handleSubmit(e: React.SyntheticEvent) {
     e.preventDefault();
-    if (form.startup_description.trim().length < 20) {
-      setError("Please describe your startup in at least 20 characters.");
+
+    if (form.company_description.trim().length < 20) {
+      setError("Please describe what your company does in at least 20 characters.");
+      return;
+    }
+    if (form.problem_description.trim().length < 20) {
+      setError("Please describe the problem you are solving in at least 20 characters.");
+      return;
+    }
+    if (form.founder_context.trim().length < 10) {
+      setError("Please tell us why you are the right founder.");
+      return;
+    }
+    if (form.competitors.trim().length < 5) {
+      setError("Please describe your competitors.");
       return;
     }
 
@@ -100,24 +119,52 @@ export default function Home() {
         {!result && (
           <form onSubmit={handleSubmit} className="flex flex-col gap-6">
 
-            {/* Startup description */}
+            {/* Q1 — What does your company do */}
             <div className="flex flex-col gap-1">
               <label className="text-sm font-medium text-zinc-700">
-                Describe your startup
+                What does your company do?
               </label>
               <textarea
                 className="w-full rounded-lg border border-zinc-200 px-4 py-3 text-sm text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-900 resize-none"
-                rows={5}
-                placeholder="What are you building, who is it for, and what problem does it solve?"
-                value={form.startup_description}
-                onChange={(e) => setForm({ ...form, startup_description: e.target.value })}
+                rows={3}
+                placeholder="Describe what you are building and who it is for."
+                value={form.company_description}
+                onChange={(e) => setForm({ ...form, company_description: e.target.value })}
               />
             </div>
 
-            {/* Stage */}
+            {/* Q2 — What problem are you solving */}
             <div className="flex flex-col gap-1">
               <label className="text-sm font-medium text-zinc-700">
-                What stage are you at?
+                What problem are you solving, and who has it?
+              </label>
+              <textarea
+                className="w-full rounded-lg border border-zinc-200 px-4 py-3 text-sm text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-900 resize-none"
+                rows={3}
+                placeholder="Describe the specific pain point and the people who experience it."
+                value={form.problem_description}
+                onChange={(e) => setForm({ ...form, problem_description: e.target.value })}
+              />
+            </div>
+
+            {/* Q3 — Why are you the right founder */}
+            <div className="flex flex-col gap-1">
+              <label className="text-sm font-medium text-zinc-700">
+                Why are you the right founder to build this?
+              </label>
+              <textarea
+                className="w-full rounded-lg border border-zinc-200 px-4 py-3 text-sm text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-900 resize-none"
+                rows={3}
+                placeholder="Your background, domain expertise, or personal connection to this problem."
+                value={form.founder_context}
+                onChange={(e) => setForm({ ...form, founder_context: e.target.value })}
+              />
+            </div>
+
+            {/* Q4 — How far along are you */}
+            <div className="flex flex-col gap-1">
+              <label className="text-sm font-medium text-zinc-700">
+                How far along are you?
               </label>
               <select
                 className="w-full rounded-lg border border-zinc-200 px-4 py-3 text-sm text-zinc-900 focus:outline-none focus:ring-2 focus:ring-zinc-900 bg-white"
@@ -130,10 +177,24 @@ export default function Home() {
               </select>
             </div>
 
-            {/* Technical founder */}
+            {/* Q5 — Competitors */}
+            <div className="flex flex-col gap-1">
+              <label className="text-sm font-medium text-zinc-700">
+                Who are your competitors, and what do you understand that they don't?
+              </label>
+              <textarea
+                className="w-full rounded-lg border border-zinc-200 px-4 py-3 text-sm text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-900 resize-none"
+                rows={3}
+                placeholder="Name your competitors and explain your specific insight or advantage over them."
+                value={form.competitors}
+                onChange={(e) => setForm({ ...form, competitors: e.target.value })}
+              />
+            </div>
+
+            {/* Q6 — Technical founder */}
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium text-zinc-700">
-                Does your team have a technical founder who can build the product?
+                Can someone on the founding team build the product?
               </label>
               <div className="flex gap-3">
                 {[true, false].map((val) => (
@@ -153,7 +214,7 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Full time */}
+            {/* Q7 — Full time */}
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium text-zinc-700">
                 Are you working on this full-time?

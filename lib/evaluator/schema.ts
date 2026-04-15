@@ -3,11 +3,23 @@ import { z } from "zod";
 // ── Request ──────────────────────────────────────────────────────────────────
 
 export const EvalInputSchema = z.object({
-  startup_description: z
+  company_description: z
     .string()
-    .min(20, "Startup description must be at least 20 characters")
-    .max(2000, "Startup description must be under 2000 characters"),
+    .min(20, "Please describe what your company does in at least 20 characters")
+    .max(1000, "Company description must be under 1000 characters"),
+  problem_description: z
+    .string()
+    .min(20, "Please describe the problem in at least 20 characters")
+    .max(1000, "Problem description must be under 1000 characters"),
+  founder_context: z
+    .string()
+    .min(10, "Please tell us why you are the right founder")
+    .max(1000, "Founder context must be under 1000 characters"),
   stage: z.enum(["idea", "mvp", "users", "revenue"]),
+  competitors: z
+    .string()
+    .min(5, "Please describe your competitors")
+    .max(500, "Competitor description must be under 500 characters"),
   is_technical: z.boolean(),
   is_full_time: z.boolean(),
   buzzwords_detected: z.array(z.string()).optional(),

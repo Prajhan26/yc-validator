@@ -26,13 +26,13 @@ const TARPIT_PATTERNS = [
 
 // ── Checks ────────────────────────────────────────────────────────────────────
 
-function checkBuzzwords(description: string): string[] {
-  const lower = description.toLowerCase();
+function checkBuzzwords(text: string): string[] {
+  const lower = text.toLowerCase();
   return BUZZWORDS.filter((word) => lower.includes(word.toLowerCase()));
 }
 
-function checkTarpitMatch(description: string): string | null {
-  const lower = description.toLowerCase();
+function checkTarpitMatch(text: string): string | null {
+  const lower = text.toLowerCase();
   const match = TARPIT_PATTERNS.find((pattern) =>
     lower.includes(pattern.toLowerCase())
   );
@@ -41,10 +41,10 @@ function checkTarpitMatch(description: string): string | null {
 
 function checkWarnings(input: EvalInput): string[] {
   const warnings: string[] = [];
-  const wordCount = input.startup_description.trim().split(/\s+/).length;
 
+  const wordCount = input.company_description.trim().split(/\s+/).length;
   if (wordCount < 10) {
-    warnings.push("Startup description is very short — evaluation quality will be low.");
+    warnings.push("Company description is very short — evaluation quality will be low.");
   }
 
   if (!input.is_full_time) {
@@ -57,9 +57,11 @@ function checkWarnings(input: EvalInput): string[] {
 // ── Public API ────────────────────────────────────────────────────────────────
 
 export function runHeuristics(input: EvalInput): HeuristicResult {
+  // Run checks across company description, problem, and competitor fields combined
+  const combinedText = `${input.company_description} ${input.problem_description} ${input.competitors}`;
   return {
-    buzzwords_detected: checkBuzzwords(input.startup_description),
-    tarpit_match:       checkTarpitMatch(input.startup_description),
+    buzzwords_detected: checkBuzzwords(combinedText),
+    tarpit_match:       checkTarpitMatch(combinedText),
     warnings:           checkWarnings(input),
   };
 }
