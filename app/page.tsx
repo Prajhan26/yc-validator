@@ -20,10 +20,10 @@ interface FormState {
 // ── Constants ─────────────────────────────────────────────────────────────────
 
 const STAGE_LABELS: Record<Stage, string> = {
-  idea:    "Idea — no product yet",
-  mvp:     "MVP — product built, few or no users",
-  users:   "Users — people are using it",
-  revenue: "Revenue — paying customers",
+  idea:    "Idea",
+  mvp:     "MVP",
+  users:   "Users",
+  revenue: "Revenue",
 };
 
 const DIMENSION_LABELS: Record<string, string> = {
@@ -87,13 +87,13 @@ export default function Home() {
       const data = await res.json();
 
       if (!res.ok) {
-        setError(data.error ?? "Something went wrong. Please try again.");
+        setError(data.error ?? "We couldn't complete your evaluation. Please try again.");
         return;
       }
 
       setResult(data as EvalOutput);
     } catch {
-      setError("Something went wrong. Please try again.");
+      setError("We couldn't complete your evaluation. Please try again.");
     } finally {
       setSubmitting(false);
     }
@@ -127,7 +127,7 @@ export default function Home() {
               <textarea
                 className="w-full rounded-lg border border-zinc-200 px-4 py-3 text-sm text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-900 resize-none"
                 rows={3}
-                placeholder="Describe what you are building and who it is for."
+                placeholder="Describe what you are building in one or two clear sentences."
                 value={form.company_description}
                 onChange={(e) => setForm({ ...form, company_description: e.target.value })}
               />
@@ -141,7 +141,7 @@ export default function Home() {
               <textarea
                 className="w-full rounded-lg border border-zinc-200 px-4 py-3 text-sm text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-900 resize-none"
                 rows={3}
-                placeholder="Describe the specific pain point and the people who experience it."
+                placeholder="Be specific about who has the problem, how often it shows up, and why it matters."
                 value={form.problem_description}
                 onChange={(e) => setForm({ ...form, problem_description: e.target.value })}
               />
@@ -155,7 +155,7 @@ export default function Home() {
               <textarea
                 className="w-full rounded-lg border border-zinc-200 px-4 py-3 text-sm text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-900 resize-none"
                 rows={3}
-                placeholder="Your background, domain expertise, or personal connection to this problem."
+                placeholder="Explain your edge: experience, insight, technical ability, or why you understand this problem better than others."
                 value={form.founder_context}
                 onChange={(e) => setForm({ ...form, founder_context: e.target.value })}
               />
@@ -185,7 +185,7 @@ export default function Home() {
               <textarea
                 className="w-full rounded-lg border border-zinc-200 px-4 py-3 text-sm text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-900 resize-none"
                 rows={3}
-                placeholder="Name your competitors and explain your specific insight or advantage over them."
+                placeholder="Name the real alternatives and explain what you see differently."
                 value={form.competitors}
                 onChange={(e) => setForm({ ...form, competitors: e.target.value })}
               />
@@ -248,7 +248,7 @@ export default function Home() {
               disabled={submitting}
               className="w-full rounded-lg bg-zinc-900 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-zinc-700 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {submitting ? "Evaluating..." : "Evaluate my idea"}
+              {submitting ? "Evaluating your application..." : "Evaluate my application"}
             </button>
 
             {/* Loading hint */}
@@ -382,7 +382,7 @@ export default function Home() {
               onClick={() => { setResult(null); setError(null); }}
               className="w-full rounded-lg border border-zinc-200 px-6 py-3 text-sm font-medium text-zinc-600 hover:border-zinc-400 transition-colors"
             >
-              Evaluate another idea
+              Evaluate another application
             </button>
 
           </div>
