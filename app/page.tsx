@@ -12,12 +12,12 @@ interface FormState {
   company_description: string;
   problem_description: string;
   founder_context:     string;
-  stage:               Stage;
+  stage:               Stage | null;
   competitors:         string;
-  domain_expertise:    boolean;
+  domain_expertise:    boolean | null;
   // Progress follow-up — conditional on stage
-  is_full_time:        boolean;   // idea/mvp only
-  progress_detail:     string;    // users/revenue only
+  is_full_time:        boolean | null;  // idea/mvp only
+  progress_detail:     string;          // users/revenue only
 }
 
 // ── Constants ──────────────────────────────────────────────────────────────────
@@ -66,7 +66,7 @@ function YesNo({
   value,
   onChange,
 }: {
-  value: boolean;
+  value: boolean | null;
   onChange: (v: boolean) => void;
 }) {
   return (
@@ -100,10 +100,10 @@ export default function Home() {
     company_description: "",
     problem_description: "",
     founder_context:     "",
-    stage:               "idea",
+    stage:               null,
     competitors:         "",
-    domain_expertise:    true,
-    is_full_time:        true,
+    domain_expertise:    null,
+    is_full_time:        null,
     progress_detail:     "",
   });
 
@@ -153,9 +153,21 @@ export default function Home() {
       setError("Please describe your competitors.");
       return;
     }
+    if (form.stage === null) {
+      setError("Please select how far along you are.");
+      return;
+    }
     const isLateStage = form.stage === "users" || form.stage === "revenue";
     if (isLateStage && form.progress_detail.trim().length < 10) {
       setError("Please describe your progress and time commitment.");
+      return;
+    }
+    if (!isLateStage && form.is_full_time === null) {
+      setError("Please select whether you are working full-time.");
+      return;
+    }
+    if (form.domain_expertise === null) {
+      setError("Please select whether your team has domain expertise.");
       return;
     }
 
@@ -164,18 +176,19 @@ export default function Home() {
     setResult(null);
 
     // Build payload — send only the fields relevant to the stage
+    // stage and domain_expertise are guaranteed non-null past validation above
     const payload: Record<string, unknown> = {
       company_description: form.company_description,
       problem_description: form.problem_description,
       founder_context:     form.founder_context,
-      stage:               form.stage,
+      stage:               form.stage as Stage,
       competitors:         form.competitors,
-      domain_expertise:    form.domain_expertise,
+      domain_expertise:    form.domain_expertise as boolean,
     };
     if (isLateStage) {
       payload.progress_detail = form.progress_detail;
     } else {
-      payload.is_full_time = form.is_full_time;
+      payload.is_full_time = form.is_full_time as boolean;
     }
 
     try {
@@ -267,7 +280,8 @@ export default function Home() {
   // ── Application ────────────────────────────────────────────────────────────
 
   if (view === "application") {
-    const isLateStage = form.stage === "users" || form.stage === "revenue";
+    const isLateStage  = form.stage === "users" || form.stage === "revenue";
+    const stageSelected = form.stage !== null;
 
     return (
       <main className="min-h-screen bg-[#FAF8F4] text-[#1A1918] px-6 py-12 font-sans">
@@ -395,8 +409,8 @@ export default function Home() {
                     ))}
                   </div>
 
-                  {/* Conditional follow-up */}
-                  <div className="mt-4">
+                  {/* Conditional follow-up — only shown once a stage is selected */}
+                  {stageSelected && <div className="mt-4">
                     {isLateStage ? (
                       <>
                         <label className="text-sm font-medium text-[#1A1918]">
@@ -421,7 +435,7 @@ export default function Home() {
                         />
                       </>
                     )}
-                  </div>
+                  </div>}
                 </div>
 
                 {/* Competitors */}
