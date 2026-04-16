@@ -24,9 +24,9 @@ const CASES = [
     label: "Case 1 — Strong Idea (B2B dev tool, revenue, technical founders)",
     input: {
       company_description:
-        "We built a B2B dev tool that automatically detects and fixes memory leaks in production Node.js apps. Both founders are senior engineers who spent 5 years debugging performance issues at scale.",
+        "We built a B2B dev tool that automatically detects and fixes memory leaks in production Node.js apps. We have 12 paying customers at $400 MRR and grew 40% last month. Both founders are senior engineers who spent 5 years debugging performance issues at scale.",
       problem_description:
-        "Memory leaks in production Node.js apps silently kill performance and are almost impossible to reproduce locally. Engineering teams lose days diagnosing them. The problem is chronic, expensive, and has no good automated solution.",
+        "Memory leaks in production Node.js apps silently kill performance and are almost impossible to reproduce locally. Engineering teams lose days diagnosing them — we have seen teams spend 3–5 days on a single incident. The problem is chronic, expensive, and has no good automated solution.",
       founder_context:
         "Both founders spent 5 years as senior engineers dealing with this exact problem at scale. We have fixed hundreds of memory leaks in production and know every failure pattern.",
       stage: "revenue",
@@ -107,7 +107,9 @@ const CASES = [
 
 // ── Shared checks (run on every case) ────────────────────────────────────────
 
-const VERDICT_PATTERN = /\b(accepted|rejected|pass|fail|verdict)\b/i;
+// Matches verdict language used as a judgment on the idea/founder, not natural English.
+// "fails to serve", "pass/fail" in other contexts, "failing market" etc. are NOT verdicts.
+const VERDICT_PATTERN = /\b(accepted into|not accepted|rejected|your idea (passes|fails)|idea is (strong enough|not strong enough)|verdict[:\s]|this (passes|fails))\b/i;
 const REQUIRED_DIMENSIONS = [
   "problem_quality",
   "founder_fit",

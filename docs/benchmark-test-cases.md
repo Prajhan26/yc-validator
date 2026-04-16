@@ -19,8 +19,8 @@ Use these cases to:
 **Input:**
 ```json
 {
-  "company_description": "We built a B2B dev tool that automatically detects and fixes memory leaks in production Node.js apps. Both founders are senior engineers who spent 5 years debugging performance issues at scale.",
-  "problem_description": "Memory leaks in production Node.js apps silently kill performance and are almost impossible to reproduce locally. Engineering teams lose days diagnosing them. The problem is chronic, expensive, and has no good automated solution.",
+  "company_description": "We built a B2B dev tool that automatically detects and fixes memory leaks in production Node.js apps. We have 12 paying customers at $400 MRR and grew 40% last month. Both founders are senior engineers who spent 5 years debugging performance issues at scale.",
+  "problem_description": "Memory leaks in production Node.js apps silently kill performance and are almost impossible to reproduce locally. Engineering teams lose days diagnosing them — we have seen teams spend 3–5 days on a single incident. The problem is chronic, expensive, and has no good automated solution.",
   "founder_context": "Both founders spent 5 years as senior engineers dealing with this exact problem at scale. We have fixed hundreds of memory leaks in production and know every failure pattern.",
   "stage": "revenue",
   "competitors": "New Relic and Datadog do APM broadly but do not specialize in memory leak detection or automated fixes. We go deeper on one problem they treat as a footnote.",
