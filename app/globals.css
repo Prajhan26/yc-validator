@@ -26,11 +26,13 @@
 
 html {
   background: var(--paper);
+  width: 100%;
 }
 
 body {
   margin: 0;
   min-height: 100vh;
+  width: 100%;
   background: radial-gradient(circle at top, #fbf7ee 0%, var(--paper) 52%, #efe9db 100%);
   color: var(--ink);
   font-family: var(--font-ui);
@@ -44,22 +46,25 @@ textarea {
 }
 
 .yc-app-shell {
+  width: 100%;
   min-height: 100vh;
-  padding: 32px 20px 48px;
+  padding: 0;
 }
 
 .yc-card,
 .yc-review-sheet {
-  max-width: 980px;
-  margin: 0 auto;
+  width: 100%;
+  max-width: none;
+  min-height: 100vh;
+  margin: 0;
   background: rgba(252, 248, 238, 0.9);
-  border: 1px solid rgba(85, 79, 65, 0.12);
-  box-shadow: 0 14px 40px rgba(46, 48, 36, 0.08);
+  border: 0;
+  box-shadow: none;
 }
 
 .yc-landing-card {
-  min-height: calc(100vh - 80px);
-  padding: 30px 44px 34px;
+  min-height: 100vh;
+  padding: 16px 72px 34px;
   display: flex;
   flex-direction: column;
 }
@@ -68,8 +73,14 @@ textarea {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-bottom: 28px;
-  border-bottom: 1px solid var(--rule);
+  padding-bottom: 22px;
+  border-bottom: 1px solid rgba(92, 84, 67, 0.05);
+}
+
+.yc-card-topline-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }
 
 .yc-meta-kicker {
@@ -86,20 +97,25 @@ textarea {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 18px;
-  margin-top: -28px;
+  gap: 14px;
+  margin-top: -52px;
   text-align: center;
+  width: 100%;
 }
 
 .yc-landing-quote {
-  max-width: 680px;
+  position: relative;
+  max-width: 1280px;
   margin: 0;
   color: #3b3d2f;
   font-family: var(--font-display);
-  font-size: clamp(3.2rem, 6vw, 5.4rem);
+  font-size: clamp(3.2rem, 4.2vw, 4.35rem);
   font-weight: 700;
-  line-height: 0.9;
+  line-height: 0.92;
   letter-spacing: -0.05em;
+  text-align: center;
+  display: block;
+  padding-left: 0.36em;
 }
 
 .yc-soft-caret {
@@ -121,11 +137,59 @@ textarea {
   }
 }
 
+.yc-landing-open-quote,
+.yc-landing-inline-close-quote {
+  color: rgba(59, 61, 47, 0.85);
+  font-size: 0.46em;
+  line-height: 1;
+  display: block;
+}
+
+.yc-landing-open-quote {
+  position: absolute;
+  left: 0;
+  top: 0.16em;
+  margin-right: 0;
+  transform: none;
+}
+
+.yc-landing-quote-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+  width: 100%;
+}
+
+.yc-landing-quote-line {
+  position: relative;
+  display: block;
+}
+
+.yc-landing-quote-line-template {
+  display: block;
+  visibility: hidden;
+}
+
+.yc-landing-quote-line-typed {
+  position: absolute;
+  inset: 0;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.yc-landing-inline-close-quote {
+  display: inline-block;
+  margin-left: 0.01em;
+  transform: translateY(0.02em);
+}
+
 .yc-landing-subhead {
-  margin: 0;
+  margin: 14px 0 18px;
   color: #67604f;
   font-family: var(--font-display);
-  font-size: clamp(1.35rem, 2vw, 1.7rem);
+  font-size: clamp(1.18rem, 1.5vw, 1.42rem);
   font-style: italic;
 }
 
@@ -133,7 +197,7 @@ textarea {
   border: 0;
   background: var(--accent);
   color: #fffaf1;
-  padding: 15px 26px;
+  padding: 14px 24px;
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.22em;
@@ -153,13 +217,24 @@ textarea {
   transform: none;
 }
 
-.yc-primary-cta--small {
-  padding: 11px 18px;
+.yc-top-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent);
+  color: #fffaf1;
+  padding: 11px 22px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
 }
 
 .yc-privacy-line {
-  margin: 0;
-  color: var(--ink-soft);
+  margin: 10px 0 0;
+  color: #968f7e;
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.12em;
@@ -167,17 +242,17 @@ textarea {
 }
 
 .yc-landing-footer {
-  border-top: 1px solid var(--rule);
-  padding-top: 22px;
+  border-top: 1px solid rgba(92, 84, 67, 0.05);
+  padding-top: 26px;
   text-align: center;
 }
 
 .yc-landing-footer p {
-  max-width: 540px;
+  max-width: 620px;
   margin: 0 auto;
   color: var(--ink-muted);
-  font-size: 13px;
-  line-height: 1.75;
+  font-size: 12px;
+  line-height: 1.65;
 }
 
 .yc-back-link {
