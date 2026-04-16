@@ -46,11 +46,11 @@ const DIMENSION_ORDER = [
 
 function ScoreBar({ score }: { score: number }) {
   return (
-    <div className="flex gap-[3px] mt-2 mb-1">
+    <div className="flex gap-[2px]">
       {Array.from({ length: 10 }, (_, i) => (
         <div
           key={i}
-          className={`h-[5px] flex-1 rounded-[2px] ${i < score ? "" : "bg-[#E5E0D8]"}`}
+          className={`h-[4px] w-4 rounded-[1px] ${i < score ? "" : "bg-[#E5E0D8]"}`}
           style={
             i < score
               ? { background: "linear-gradient(90deg, #C44B18, #E8682A)" }
@@ -547,17 +547,21 @@ export default function Home() {
                   const conf = result.confidence_by_dimension[key];
                   return (
                     <div key={key}>
-                      <div className="flex items-baseline justify-between">
+                      <div className="flex items-baseline justify-between mb-1.5">
                         <span className="text-sm font-medium text-[#1A1918]">
                           {DIMENSION_LABELS[key]}
                         </span>
-                        <span className="text-sm font-semibold text-[#1A1918]">
-                          {dim.score}/10
-                        </span>
+                        <div className="flex items-center gap-2">
+                          <ScoreBar score={dim.score} />
+                          <span className="text-sm font-semibold text-[#1A1918] tabular-nums">
+                            {dim.score}/10
+                          </span>
+                        </div>
                       </div>
-                      <ScoreBar score={dim.score} />
-                      <p className="text-xs text-[#4A4542] leading-5 mt-1">{dim.reason}</p>
-                      <p className="text-xs text-[#9B948D] mt-0.5">{conf} confidence</p>
+                      <p className="text-xs text-[#4A4542] leading-5">{dim.reason}</p>
+                      <p className="text-xs text-[#B5AFA8] mt-0.5">
+                        {conf.charAt(0).toUpperCase() + conf.slice(1)}
+                      </p>
                     </div>
                   );
                 })}
