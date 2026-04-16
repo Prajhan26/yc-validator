@@ -1,9 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-import type { EvalInput, EvalOutput } from "../../lib/evaluator/schema";
+import type { EvalOutput } from "../../lib/evaluator/schema";
 
 const SCORE_LABELS: Array<{
   key: keyof EvalOutput["dimension_scores"];
@@ -18,12 +18,15 @@ const SCORE_LABELS: Array<{
 
 export default function ReviewPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [review, setReview] = useState<EvalOutput | null>(null);
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
+    const requestedToken = searchParams.get("rid");
+    const storedToken = sessionStorage.getItem("yc-validator:last-review-token");
     const raw = sessionStorage.getItem("yc-validator:last-review");
-    if (!raw) {
+    if (!requestedToken || !storedToken || requestedToken !== storedToken || !raw) {
       router.replace("/apply");
       return;
     }
@@ -34,7 +37,7 @@ export default function ReviewPage() {
     } catch {
       router.replace("/apply");
     }
-  }, [router]);
+  }, [router, searchParams]);
 
   const handleDownload = () => {
     window.print();

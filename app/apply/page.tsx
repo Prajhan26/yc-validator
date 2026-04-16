@@ -38,6 +38,7 @@ export default function ApplyPage() {
   useEffect(() => {
     sessionStorage.removeItem("yc-validator:last-input");
     sessionStorage.removeItem("yc-validator:last-review");
+    sessionStorage.removeItem("yc-validator:last-review-token");
   }, []);
 
   const startupDescription = [
@@ -119,9 +120,11 @@ export default function ApplyPage() {
         return;
       }
 
+      const reviewToken = `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
       sessionStorage.setItem("yc-validator:last-input", JSON.stringify(payload));
       sessionStorage.setItem("yc-validator:last-review", JSON.stringify(data));
-      router.push("/review");
+      sessionStorage.setItem("yc-validator:last-review-token", reviewToken);
+      router.push(`/review?rid=${reviewToken}`);
     } catch {
       setErrorMessage("We couldn't generate the review right now.");
       setIsSubmitting(false);
