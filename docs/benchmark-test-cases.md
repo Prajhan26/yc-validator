@@ -19,17 +19,20 @@ Use these cases to:
 **Input:**
 ```json
 {
-  "startup_description": "We built a B2B dev tool that automatically detects and fixes memory leaks in production Node.js apps. We have 12 paying customers at 400 MRR and grew 40% last month. Both founders are senior engineers who spent 5 years debugging performance issues at scale.",
+  "company_description": "We built a B2B dev tool that automatically detects and fixes memory leaks in production Node.js apps. Both founders are senior engineers who spent 5 years debugging performance issues at scale.",
+  "problem_description": "Memory leaks in production Node.js apps silently kill performance and are almost impossible to reproduce locally. Engineering teams lose days diagnosing them. The problem is chronic, expensive, and has no good automated solution.",
+  "founder_context": "Both founders spent 5 years as senior engineers dealing with this exact problem at scale. We have fixed hundreds of memory leaks in production and know every failure pattern.",
   "stage": "revenue",
+  "competitors": "New Relic and Datadog do APM broadly but do not specialize in memory leak detection or automated fixes. We go deeper on one problem they treat as a footnote.",
   "is_technical": true,
   "is_full_time": true
 }
 ```
 
 **What to check:**
-- `founder_fit` scores high (strong founder-market fit)
-- `traction_and_evidence` scores high (concrete numbers present)
-- Hard truth flags pricing concern (low ARPU)
+- `founder_fit` scores high — strong founder-market fit
+- `traction_and_evidence` scores high — stage is revenue
+- `solution_clarity` scores high — specific, narrow problem
 - No verdict language
 
 ---
@@ -41,8 +44,11 @@ Use these cases to:
 **Input:**
 ```json
 {
-  "startup_description": "An app that uses AI to suggest what to cook based on what is in your fridge. You take a photo and it gives you recipe ideas.",
+  "company_description": "An app that uses AI to suggest what to cook based on what is in your fridge. You take a photo and it gives you recipe ideas.",
+  "problem_description": "People do not know what to cook and waste food. They open the fridge and have no inspiration.",
+  "founder_context": "I love cooking and have always wanted to make this app. I think a lot of people have this problem.",
   "stage": "idea",
+  "competitors": "There are no real competitors doing this with AI and photos.",
   "is_technical": false,
   "is_full_time": false
 }
@@ -50,8 +56,8 @@ Use these cases to:
 
 **What to check:**
 - `founder_fit` capped at 3 — hard rule fires (no technical founder)
-- `traction_and_evidence` scores 1 — no validation
-- Major concerns include no technical founder and existing competitors
+- `traction_and_evidence` low — idea stage, no validation
+- Competitor concern added — "no competitors" claim triggers hard rule
 - No verdict language
 
 ---
@@ -63,17 +69,20 @@ Use these cases to:
 **Input:**
 ```json
 {
-  "startup_description": "We are building an Uber for dog walking. Dog owners can book a nearby dog walker on demand through our app. We have a two-sided marketplace with walkers and owners.",
+  "company_description": "We are building an Uber for dog walking. Dog owners can book a nearby dog walker on demand through our app. We have a two-sided marketplace with walkers and owners.",
+  "problem_description": "Dog owners struggle to find reliable dog walkers on short notice. Existing platforms are slow and hard to trust.",
+  "founder_context": "I have a dog and have had trouble finding walkers. I think the market is huge and the experience is broken.",
   "stage": "mvp",
+  "competitors": "Rover and Wag exist but they are not on-demand. We are faster and more local.",
   "is_technical": true,
   "is_full_time": true
 }
 ```
 
 **What to check:**
-- Tarpit pattern detected and flagged in `major_concerns`
-- Rover and Wag surfaced as incumbents
-- `traction_and_evidence` low — no numbers given
+- Tarpit pattern detected (`uber for`, `two-sided marketplace`) — flagged in `major_concerns`
+- Rover and Wag surfaced as direct incumbents
+- `traction_and_evidence` low — no numbers
 - No verdict language
 
 ---

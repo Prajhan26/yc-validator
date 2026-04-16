@@ -168,12 +168,15 @@ These exist in the framework doc, not in the YC source dump itself:
 
 ```json
 {
-  "startup_description": "string",
-  "stage": "idea | mvp | users | revenue",
-  "is_technical": "boolean",
-  "is_full_time": "boolean",
-  "buzzwords_detected": "string[] (optional)",
-  "tarpit_match": "string | null (optional)"
+  "company_description": "string (min 20, max 1000 chars)",
+  "problem_description": "string (min 20, max 1000 chars)",
+  "founder_context":     "string (min 10, max 1000 chars)",
+  "stage":               "idea | mvp | users | revenue",
+  "competitors":         "string (min 5, max 500 chars)",
+  "is_technical":        "boolean",
+  "is_full_time":        "boolean",
+  "buzzwords_detected":  "string[] (optional, injected by heuristics)",
+  "tarpit_match":        "string | null (optional, injected by heuristics)"
 }
 ```
 
