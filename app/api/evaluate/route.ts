@@ -92,6 +92,7 @@ export async function POST(request: Request) {
   // ── Validate output against locked schema ─────────────────────────────────
   const validated = EvalOutputSchema.safeParse(parsed_output);
   if (!validated.success) {
+    console.log("[evaluate] validation error", { error: validated.error.issues });
     return Response.json(
       { error: "Model output did not match locked schema.", details: validated.error.flatten() },
       { status: 502 }
@@ -135,5 +136,6 @@ export async function POST(request: Request) {
   output.major_concerns = concerns.slice(0, 5);
 
   // ── Return response ───────────────────────────────────────────────────────
+  console.log("[evaluate] request", { stage: input.stage, domain_expertise: input.domain_expertise, overall_assessment: output.overall_assessment });
   return Response.json(output);
 }
