@@ -1,10 +1,20 @@
 # Frontend Integration Handoff
 
+## Status
+
+This file is now a historical handoff for the earlier frontend pass.
+
+The current implementation source of truth is:
+
+- [docs/frontend-ui-implementation-spec.md](/Users/prajhan/Ideavalidation/docs/frontend-ui-implementation-spec.md:1)
+
+Use this older file only for context on how the frontend phase started.
+
 ## Purpose
 
 This document is the implementation handoff for the next phase of YC Validator after the evaluator backend has been merged.
 
-This phase is focused on:
+This earlier phase was focused on:
 
 - connecting the frontend to the merged evaluator backend
 - making the founder flow usable in the browser
@@ -71,30 +81,16 @@ Relevant backend files already merged:
 - contract changes
 
 
-## Technical Goal
+## Note On Contract Drift
 
-Build a minimal but clean UI that collects the locked input fields:
+This document still reflects the earlier one-field intake shape.
 
-- `startup_description`
-- `stage`
-- `is_technical`
-- `is_full_time`
+That contract has been replaced by the structured application flow in:
 
-Send that input to:
+- [docs/frontend-ui-implementation-spec.md](/Users/prajhan/Ideavalidation/docs/frontend-ui-implementation-spec.md:1)
+- [docs/yc-validator-spec.md](/Users/prajhan/Ideavalidation/docs/yc-validator-spec.md:1)
 
-- `POST /api/evaluate`
-
-Then render the locked output fields:
-
-- `overall_assessment`
-- `dimension_scores`
-- `confidence_by_dimension`
-- `major_concerns`
-- `strong_signals`
-- `critical_questions`
-- `missing_evidence`
-- `next_3_moves`
-- `hard_truth`
+Do not implement against the old `startup_description` flow from this document.
 
 
 ## Recommended Implementation Order
@@ -128,6 +124,8 @@ No routing complexity is needed yet.
 
 
 ### Step 3: Build the input form
+
+This step is now superseded by the structured application flow in the newer UI spec.
 
 The form should contain exactly these fields:
 
