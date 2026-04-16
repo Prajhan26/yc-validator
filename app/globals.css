@@ -681,3 +681,41 @@ textarea {
     align-items: flex-start;
   }
 }
+
+@media print {
+  @page {
+    size: A4;
+    margin: 16mm;
+  }
+
+  html,
+  body {
+    background: #fefdf1;
+  }
+
+  .yc-app-shell {
+    display: block;
+    min-height: auto;
+    padding: 0;
+    background: #fefdf1;
+  }
+
+  .yc-review-wrapper {
+    max-width: none;
+    margin: 0;
+  }
+
+  .yc-review-wrapper > .yc-back-link,
+  .yc-review-actions {
+    display: none;
+  }
+
+  .yc-review-sheet {
+    width: 100%;
+    min-height: auto;
+    padding: 0;
+    box-shadow: none;
+    border: 0;
+    background: #fefdf1;
+  }
+}

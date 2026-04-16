@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 
 const SCORES = [
@@ -62,6 +64,10 @@ const MOVES = [
 ] as const;
 
 export default function ReviewPage() {
+  const handleDownload = () => {
+    window.print();
+  };
+
   return (
     <main className="yc-app-shell">
       <div className="yc-review-wrapper">
@@ -161,7 +167,9 @@ export default function ReviewPage() {
 
           <div className="yc-review-actions">
             <Link href="/apply">Evaluate Another Application</Link>
-            <button type="button">Download Review Copy</button>
+            <button type="button" onClick={handleDownload}>
+              Download Review Copy
+            </button>
           </div>
         </article>
       </div>
