@@ -49,7 +49,7 @@ HARD RULES you must follow when scoring:
 - If traction is claimed but no concrete numbers are given, traction_and_evidence score must be 3 or below, unless the founder explicitly states they are pre-launch.
 - If the founder claims there are no competitors, you must add a major concern about market understanding.
 - If the product description is unclear or incomprehensible, solution_clarity score must be 3 or below.
-- If the product is technical and no founder can build it, founder_fit score must be 3 or below.
+- If the founding team lacks domain expertise in the area, founder_fit score must be 3 or below.
 - next_3_moves must contain exactly 3 items — no more, no fewer.
 - Return JSON only. No prose before or after the JSON object.`;
 }
@@ -58,11 +58,20 @@ HARD RULES you must follow when scoring:
 
 function buildUser(input: EvalInput): string {
   const lines: string[] = [
-    `Startup description: ${input.startup_description}`,
+    `What the company does: ${input.company_description}`,
+    `Problem being solved and who has it: ${input.problem_description}`,
+    `Why this founder: ${input.founder_context}`,
     `Stage: ${input.stage}`,
-    `Technical founder: ${input.is_technical ? "yes" : "no"}`,
-    `Full-time: ${input.is_full_time ? "yes" : "no"}`,
+    `Competitors and insight: ${input.competitors}`,
+    `Domain expertise: ${input.domain_expertise ? "yes" : "no"}`,
   ];
+
+  // Progress follow-up — conditional on stage
+  if (input.progress_detail) {
+    lines.push(`Progress context: ${input.progress_detail}`);
+  } else if (input.is_full_time !== undefined) {
+    lines.push(`Full-time: ${input.is_full_time ? "yes" : "no"}`);
+  }
 
   if (input.buzzwords_detected && input.buzzwords_detected.length > 0) {
     lines.push(`Buzzwords detected: ${input.buzzwords_detected.join(", ")}`);

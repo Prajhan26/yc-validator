@@ -16,6 +16,50 @@ For future entries, use:
 
 ---
 
+## 2026-04-16
+
+### Summary
+
+Built and tested the evaluator backend pipeline and the frontend founder flow.
+
+### Why it changed
+
+Phase 2 (evaluator contract) and Phase 3 (product MVP) required a working server-side pipeline and a usable founder-facing UI.
+
+### Files touched
+
+**Backend — merged into main via `feature/evaluator-backend`:**
+- `lib/evaluator/schema.ts`
+- `lib/evaluator/heuristics.ts`
+- `lib/evaluator/retrieval.ts`
+- `lib/evaluator/prompt.ts`
+- `app/api/evaluate/route.ts`
+- `docs/yc-validator-spec.md` — locked MVP JSON contract added
+- `docs/evaluator-backend-spec.md`
+- `docs/feature-evaluator-backend-report.md`
+
+**Frontend — on `feature/frontend-evaluator-flow`:**
+- `app/page.tsx` — replaced starter template with founder form and results view
+- `app/layout.tsx` — updated title and description
+- `docs/frontend-evaluator-spec.md`
+- `docs/benchmark-test-cases.md`
+
+### Notes
+
+- Backend tested end-to-end with 3 benchmark cases — strong, weak, and tarpit
+- Hard rules enforced post-parse in route.ts
+- Frontend renders all 9 locked output sections
+- TypeScript check passes with no errors
+- Prajhan copy review pending before frontend merge
+
+### Follow-up
+
+- Prajhan to review page copy, field labels, and result section tone
+- Merge `feature/frontend-evaluator-flow` into main after copy review
+- Create distilled files for YC interview patterns, common mistakes, success patterns, and quotable wisdom
+
+---
+
 ## 2026-04-15
 
 ### Summary
