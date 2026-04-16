@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import type { EvalInput, EvalOutput } from "../../lib/evaluator/schema";
 
 const SECTION_IDS = [
   "company",
@@ -28,9 +29,104 @@ export default function ApplyPage() {
   const [workHistory, setWorkHistory] = useState("");
   const [competitors, setCompetitors] = useState("");
   const [expertise, setExpertise] = useState<Binary>("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const showWorkHistory = stage === "Users" || stage === "Revenue";
   const showFullTime = stage === "Idea" || stage === "MVP";
+
+  useEffect(() => {
+    sessionStorage.removeItem("yc-validator:last-input");
+    sessionStorage.removeItem("yc-validator:last-review");
+  }, []);
+
+  const startupDescription = [
+    `Company: ${company}`,
+    `Problem: ${problem}`,
+    `Founder: ${founder}`,
+    competitors ? `Competitors: ${competitors}` : "",
+    showWorkHistory && workHistory ? `Work history: ${workHistory}` : "",
+    showFullTime && fullTime ? `Working full-time: ${fullTime}` : "",
+    expertise ? `Domain expertise: ${expertise}` : "",
+  ]
+    .filter(Boolean)
+    .join("\n");
+
+  const mapStage = (value: Stage): EvalInput["stage"] => {
+    switch (value) {
+      case "Idea":
+        return "idea";
+      case "MVP":
+        return "mvp";
+      case "Users":
+        return "users";
+      case "Revenue":
+        return "revenue";
+      default:
+        return "idea";
+    }
+  };
+
+  const inferTechnicalFounder = () => {
+    const founderText = founder.toLowerCase();
+    return (
+      /engineer|developer|built|coding|technical|programmer|software|full-stack|frontend|backend/.test(
+        founderText,
+      ) || expertise === "Yes"
+    );
+  };
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (!company || !problem || !founder || !stage || !competitors || !expertise) {
+      setErrorMessage("Please complete all sections before submitting for review.");
+      return;
+    }
+
+    if (showFullTime && !fullTime) {
+      setErrorMessage("Please tell us whether you are working on this full-time.");
+      return;
+    }
+
+    if (showWorkHistory && !workHistory) {
+      setErrorMessage("Please explain how long you have been working on this.");
+      return;
+    }
+
+    setErrorMessage("");
+    setIsSubmitting(true);
+
+    try {
+      const payload: EvalInput = {
+        startup_description: startupDescription,
+        stage: mapStage(stage),
+        is_technical: inferTechnicalFounder(),
+        is_full_time: showFullTime ? fullTime === "Yes" : true,
+      };
+
+      const response = await fetch("/api/evaluate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      const data = (await response.json()) as EvalOutput | { error?: string };
+
+      if (!response.ok || "error" in data) {
+        setErrorMessage(data.error ?? "We couldn't generate the review right now.");
+        setIsSubmitting(false);
+        return;
+      }
+
+      sessionStorage.setItem("yc-validator:last-input", JSON.stringify(payload));
+      sessionStorage.setItem("yc-validator:last-review", JSON.stringify(data));
+      router.push("/review");
+    } catch {
+      setErrorMessage("We couldn't generate the review right now.");
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <main className="yc-app-shell">
@@ -64,13 +160,7 @@ export default function ApplyPage() {
             ))}
           </nav>
 
-          <form
-            className="yc-form-column"
-            onSubmit={(event) => {
-              event.preventDefault();
-              router.push("/review");
-            }}
-          >
+          <form className="yc-form-column" onSubmit={handleSubmit}>
             <section
               id="company"
               className="yc-form-section"
@@ -196,7 +286,8 @@ export default function ApplyPage() {
             </section>
 
             <div className="yc-application-actions">
-              <button type="submit" className="yc-primary-cta">
+              {errorMessage ? <p className="yc-error-message">{errorMessage}</p> : null}
+              <button type="submit" className="yc-primary-cta" disabled={isSubmitting}>
                 Submit for Review
               </button>
             </div>
