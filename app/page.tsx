@@ -1,6 +1,7 @@
  "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 
 const QUOTE_LINES = [
@@ -17,6 +18,7 @@ function getVisibleLine(line: string, visibleChars: number, consumed: number) {
 }
 
 export default function Home() {
+  const router = useRouter();
   const [visibleChars, setVisibleChars] = useState(0);
 
   useEffect(() => {
@@ -49,33 +51,30 @@ export default function Home() {
     <main className="yc-app-shell">
       <div className="yc-card yc-landing-card">
         <header className="yc-card-topline">
-          <span className="yc-meta-kicker">YC-aligned and independently built</span>
+          <span className="yc-meta-kicker">Not YC-aligned and independently built</span>
           <div className="yc-card-topline-actions">
-            <Link href="/apply" className="yc-top-cta">
+            <button
+              type="button"
+              className="yc-top-cta"
+              onClick={() => router.push("/apply")}
+            >
               Evaluate my application
-            </Link>
+            </button>
           </div>
         </header>
 
         <section className="yc-landing-copy">
           <h1 className="yc-landing-quote">
-            <span className="yc-landing-open-quote" aria-hidden="true">
-              “
-            </span>
             <span className="yc-landing-quote-content" aria-label="The less confident you are, the more serious you have to act.">
               {QUOTE_LINES.map((line, index) => (
                 <span key={line} className="yc-landing-quote-line">
                   <span className="yc-landing-quote-line-template" aria-hidden="true">
                     {line}
-                    {index === QUOTE_LINES.length - 1 ? "”" : null}
                   </span>
                   <span className="yc-landing-quote-line-typed">
                     {typedLines[index]}
                     {index === QUOTE_LINES.length - 1 ? (
                       <>
-                        <span className="yc-landing-inline-close-quote" aria-hidden="true">
-                          ”
-                        </span>
                         {visibleChars < QUOTE_LENGTH ? (
                           <span className="yc-soft-caret" aria-hidden="true" />
                         ) : null}
@@ -97,6 +96,11 @@ export default function Home() {
 
         <footer className="yc-landing-footer">
           <p>Built on a YC-informed review framework shaped from extensive source material.</p>
+          <p>
+            This is an independent YC-aligned analysis tool. It is not affiliated
+            with or endorsed by Y Combinator, and it does not make admissions
+            decisions.
+          </p>
         </footer>
       </div>
     </main>
