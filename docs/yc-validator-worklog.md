@@ -110,3 +110,68 @@ The project needed a stable repository structure so we could stop losing context
 - Create distilled files for YC interview patterns, common mistakes, success patterns, and quotable wisdom.
 - Clean the chunked large file formatting.
 - Define the evaluator schema before building the app flow.
+
+---
+
+## 2026-04-15
+
+### Summary
+
+Locked the immediate MVP contract in the spec, including the non-verdict product stance, exact JSON schema, hard scoring rules, and the first benchmark test set.
+
+### Why it changed
+
+The project needed one fixed evaluator contract so parallel work could start immediately without drift during the shipping window.
+
+### Files touched
+
+- `docs/yc-validator-spec.md`
+- `docs/yc-validator-worklog.md`
+
+### Notes
+
+- The schema now defines exactly what the backend must return.
+- The benchmark set gives us a first pass at consistency testing before trusting UI polish.
+- The product stance is now explicitly diagnostic and non-predictive.
+
+### Follow-up
+
+- Implement schema parsing and validation in the backend.
+- Turn the 10 benchmark cases into actual pitch inputs.
+- Finish the remaining distilled YC category files.
+
+---
+
+## 2026-04-16
+
+### Summary
+
+Shifted the product from the earlier one-field evaluator intake to a structured YC-style three-page flow and created a dedicated frontend UI implementation spec.
+
+### Why it changed
+
+The earlier fast MVP form was too thin for the actual product direction. The application needed to feel closer to a real YC-style intake and the docs needed to stop drifting between old and new contract assumptions.
+
+### Files touched
+
+- `docs/yc-validator-spec.md`
+- `docs/frontend-ui-implementation-spec.md`
+- `docs/frontend-integration-handoff.md`
+- `docs/yc-validator-worklog.md`
+- `docs/Design tipps`
+
+### Notes
+
+- The intake is now structured around Company, Problem, Founder, Progress, Competitors, and Expertise.
+- The product flow is now explicitly:
+  - landing page
+  - application page
+  - results page
+- The results page is intended to feel like a returned review memo rather than a dashboard.
+- The older `frontend-integration-handoff.md` is now context only and the newer UI spec is the active build handoff.
+
+### Follow-up
+
+- Have the frontend branch implement the new UI spec.
+- Review screenshots for landing, application, and results pages before merge.
+- Run benchmark checks and then move to deployment prep.
