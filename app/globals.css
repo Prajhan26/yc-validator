@@ -581,9 +581,9 @@ textarea {
 
 .yc-hard-truth {
   margin-top: 30px;
-  border-left: 2px solid rgba(196, 91, 10, 0.55);
-  background: rgba(196, 91, 10, 0.08);
-  padding: 14px 16px;
+  border-left: 2px solid rgba(196, 91, 10, 0.45);
+  border-top: 1px solid rgba(196, 91, 10, 0.12);
+  padding: 14px 16px 14px 18px;
 }
 
 .yc-hard-truth span {
@@ -611,6 +611,7 @@ textarea {
   padding: 18px 4px 6px;
 }
 
+.yc-review-actions a,
 .yc-review-actions button {
   border: 0;
   background: transparent;
