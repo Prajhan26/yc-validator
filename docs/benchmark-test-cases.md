@@ -24,14 +24,14 @@ Use these cases to:
   "founder_context": "Both founders spent 5 years as senior engineers dealing with this exact problem at scale. We have fixed hundreds of memory leaks in production and know every failure pattern.",
   "stage": "revenue",
   "competitors": "New Relic and Datadog do APM broadly but do not specialize in memory leak detection or automated fixes. We go deeper on one problem they treat as a footnote.",
-  "is_technical": true,
-  "is_full_time": true
+  "domain_expertise": true,
+  "progress_detail": "Both founders have been working on this full-time for 8 months. We quit our jobs the day we got our first paying customer."
 }
 ```
 
 **What to check:**
 - `founder_fit` scores high — strong founder-market fit
-- `traction_and_evidence` scores high — stage is revenue
+- `traction_and_evidence` scores high — stage is revenue, concrete numbers
 - `solution_clarity` scores high — specific, narrow problem
 - No verdict language
 
@@ -49,13 +49,13 @@ Use these cases to:
   "founder_context": "I love cooking and have always wanted to make this app. I think a lot of people have this problem.",
   "stage": "idea",
   "competitors": "There are no real competitors doing this with AI and photos.",
-  "is_technical": false,
+  "domain_expertise": false,
   "is_full_time": false
 }
 ```
 
 **What to check:**
-- `founder_fit` capped at 3 — hard rule fires (no technical founder)
+- `founder_fit` capped at 3 — hard rule fires (no domain expertise)
 - `traction_and_evidence` low — idea stage, no validation
 - Competitor concern added — "no competitors" claim triggers hard rule
 - No verdict language
@@ -74,7 +74,7 @@ Use these cases to:
   "founder_context": "I have a dog and have had trouble finding walkers. I think the market is huge and the experience is broken.",
   "stage": "mvp",
   "competitors": "Rover and Wag exist but they are not on-demand. We are faster and more local.",
-  "is_technical": true,
+  "domain_expertise": true,
   "is_full_time": true
 }
 ```

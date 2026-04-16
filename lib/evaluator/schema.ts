@@ -20,10 +20,15 @@ export const EvalInputSchema = z.object({
     .string()
     .min(5, "Please describe your competitors")
     .max(500, "Competitor description must be under 500 characters"),
-  is_technical: z.boolean(),
-  is_full_time: z.boolean(),
+  domain_expertise: z.boolean(),
+  // Progress follow-up — one of these is sent depending on stage:
+  // idea/mvp  → is_full_time boolean
+  // users/revenue → progress_detail text
+  is_full_time:    z.boolean().optional(),
+  progress_detail: z.string().max(1000).optional(),
+  // Injected server-side by heuristics — not required from the client
   buzzwords_detected: z.array(z.string()).optional(),
-  tarpit_match: z.string().nullable().optional(),
+  tarpit_match:       z.string().nullable().optional(),
 });
 
 export type EvalInput = z.infer<typeof EvalInputSchema>;

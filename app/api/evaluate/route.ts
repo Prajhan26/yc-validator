@@ -104,8 +104,8 @@ export async function POST(request: Request) {
   const output = { ...validated.data };
   const scores = { ...output.dimension_scores };
 
-  // Rule: technical product with no technical founder → founder_fit capped at 3
-  if (input.is_technical === false && scores.founder_fit.score > 3) {
+  // Rule: founding team lacks domain expertise → founder_fit capped at 3
+  if (input.domain_expertise === false && scores.founder_fit.score > 3) {
     scores.founder_fit = { ...scores.founder_fit, score: 3 };
   }
 

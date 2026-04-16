@@ -47,7 +47,8 @@ function checkWarnings(input: EvalInput): string[] {
     warnings.push("Company description is very short — evaluation quality will be low.");
   }
 
-  if (!input.is_full_time) {
+  // Only warn when is_full_time is explicitly false (not undefined — users/revenue stage omits it)
+  if (input.is_full_time === false) {
     warnings.push("Founder is not full-time — this will affect founder_fit scoring.");
   }
 

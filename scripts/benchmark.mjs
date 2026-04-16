@@ -32,8 +32,8 @@ const CASES = [
       stage: "revenue",
       competitors:
         "New Relic and Datadog do APM broadly but do not specialize in memory leak detection or automated fixes. We go deeper on one problem they treat as a footnote.",
-      is_technical: true,
-      is_full_time: true,
+      domain_expertise: true,
+      progress_detail: "Both founders have been working on this full-time for 8 months. We quit our jobs the day we got our first paying customer.",
     },
     checks: [
       {
@@ -57,12 +57,12 @@ const CASES = [
         "I love cooking and have always wanted to make this app. I think a lot of people have this problem.",
       stage: "idea",
       competitors: "There are no real competitors doing this with AI and photos.",
-      is_technical: false,
+      domain_expertise: false,
       is_full_time: false,
     },
     checks: [
       {
-        label: "HARD RULE: founder_fit ≤ 3 (no technical founder)",
+        label: "HARD RULE: founder_fit ≤ 3 (no domain expertise)",
         fn: (r) => r.dimension_scores.founder_fit.score <= 3,
       },
       {
@@ -86,7 +86,7 @@ const CASES = [
       stage: "mvp",
       competitors:
         "Rover and Wag exist but they are not on-demand. We are faster and more local.",
-      is_technical: true,
+      domain_expertise: true,
       is_full_time: true,
     },
     checks: [
