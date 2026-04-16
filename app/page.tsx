@@ -1,65 +1,108 @@
-import Image from "next/image";
+ "use client";
+
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
+
+const QUOTE_LINES = [
+  "The less confident",
+  "you are, the more serious",
+  "you have to act.",
+];
+
+const QUOTE_LENGTH = QUOTE_LINES.reduce((sum, line) => sum + line.length, 0);
+
+function getVisibleLine(line: string, visibleChars: number, consumed: number) {
+  const remaining = Math.max(visibleChars - consumed, 0);
+  return line.slice(0, Math.min(remaining, line.length));
+}
 
 export default function Home() {
+  const router = useRouter();
+  const [visibleChars, setVisibleChars] = useState(0);
+
+  useEffect(() => {
+    const durationMs = 2800;
+    const startedAt = performance.now();
+
+    const tick = (now: number) => {
+      const progress = Math.min((now - startedAt) / durationMs, 1);
+      setVisibleChars(Math.round(progress * QUOTE_LENGTH));
+
+      if (progress < 1) {
+        requestAnimationFrame(tick);
+      }
+    };
+
+    const frame = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frame);
+  }, []);
+
+  const typedLines = useMemo(() => {
+    let consumed = 0;
+    return QUOTE_LINES.map((line) => {
+      const typed = getVisibleLine(line, visibleChars, consumed);
+      consumed += line.length;
+      return typed;
+    });
+  }, [visibleChars]);
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <main className="yc-app-shell">
+      <div className="yc-card yc-landing-card">
+        <header className="yc-card-topline">
+          <span className="yc-meta-kicker">Not YC-aligned and independently built</span>
+          <div className="yc-card-topline-actions">
+            <button
+              type="button"
+              className="yc-top-cta"
+              onClick={() => router.push("/apply")}
+            >
+              Evaluate my application
+            </button>
+          </div>
+        </header>
+
+        <section className="yc-landing-copy">
+          <h1 className="yc-landing-quote">
+            <span className="yc-landing-quote-content" aria-label="The less confident you are, the more serious you have to act.">
+              {QUOTE_LINES.map((line, index) => (
+                <span key={line} className="yc-landing-quote-line">
+                  <span className="yc-landing-quote-line-template" aria-hidden="true">
+                    {line}
+                  </span>
+                  <span className="yc-landing-quote-line-typed">
+                    {typedLines[index]}
+                    {index === QUOTE_LINES.length - 1 ? (
+                      <>
+                        {visibleChars < QUOTE_LENGTH ? (
+                          <span className="yc-soft-caret" aria-hidden="true" />
+                        ) : null}
+                      </>
+                    ) : null}
+                  </span>
+                </span>
+              ))}
+            </span>
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+          <p className="yc-landing-subhead">
+            We tell you how strong your YC application really is.
           </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+          <Link href="/apply" className="yc-primary-cta">
+            Evaluate my application
+          </Link>
+          <p className="yc-privacy-line">Your application draft is never retained by us.</p>
+        </section>
+
+        <footer className="yc-landing-footer">
+          <p>Built on a YC-informed review framework shaped from extensive source material.</p>
+          <p>
+            This is an independent YC-aligned analysis tool. It is not affiliated
+            with or endorsed by Y Combinator, and it does not make admissions
+            decisions.
+          </p>
+        </footer>
+      </div>
+    </main>
   );
 }
