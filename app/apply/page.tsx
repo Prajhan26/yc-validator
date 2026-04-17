@@ -113,9 +113,10 @@ export default function ApplyPage() {
       });
 
       const data = (await response.json()) as EvalOutput | { error?: string };
+      const maybeError = "error" in data ? data.error : undefined;
 
-      if (!response.ok || "error" in data) {
-        setErrorMessage(data.error ?? "We couldn't generate the review right now.");
+      if (!response.ok || maybeError) {
+        setErrorMessage(maybeError ?? "We couldn't generate the review right now.");
         setIsSubmitting(false);
         return;
       }

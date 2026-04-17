@@ -1,0 +1,43 @@
+Designing with AI tools is easier than ever, but Raphael Shod and the host discuss the "good, the bad, and the ugly" of AI-assisted design
+. Raphael, co-founder of Cron (sold to Notion) and a top designer, notes that many startup landing pages now feature "dumb hover effects" and ubiquitous purple gradients
+. These trends often make websites look the same, as LLMs are trained on existing "good" examples and replicate them quickly, leading to a loss of originality
+.
+Review: New.ai
+The first site, New.ai, is described as "very purple"
+. A major critique is a line that follows the scroll up and down the page; the experts find this distracting rather than helpful, likely implemented only because it was easy to do with an LLM
+. However, they praise the hover animations for the feature cards as a tasteful and creative use of AI
+. Conversely, the navigation menu is criticized because hovering makes items disappear or fade out, which violates standard browser behavior and reduces usability
+. Raphael suggests that hover should ideally reveal functionality or make the UI feel alive, but hiding critical info behind it is an anti-pattern
+.
+Review: Rosebud AI
+Rosebud AI also uses the common purple gradient and pinkish accents, making it feel less original
+. The site features an interactive browser game, though the reviewers are unsure if it is actual product code or a sandbox
+. They suggest the navigation is confusing and that the color combination (red logo on purple) is not complimentary
+. A key takeaway is that an H1 headline must clearly state what the product is, who it is for, and why they should care
+.
+Review: Get Crux
+Get Crux is criticized for "scroll jacking" and a button that "chases" the user around the screen, which is viewed as distracting rather than engaging
+. The hero image is noted as blurry, and the site suffers from a lack of visual consistency
+. Raphael points out that fade-in animations can be problematic if they are on a timer, potentially causing users to scroll past content before it even appears
+.
+Review: Sphinx
+Sphinx is cited for having a confusing information hierarchy with too many text styles
+. The experts describe some elements as "LLM hallucinations," such as buttons that move and shift styles every time they are clicked
+. The site uses scroll jacking to force an animation that distracts from the actual value proposition
+. Raphael emphasizes that the scroll indicator is an important tool for user orientation, and this site fails to provide that clarity
+.
+Review: Build Zero
+Build Zero features distracting vertical movement in its menu and hover effects that cause the menu to shift horizontally, which looks like a bug
+. The "fake dashboard" shown on the site uses standard "Google colors" (red, yellow, green, blue), which is a classic hallmark of AI-generated design
+. Raphael notes that while "bento boxes" are a popular pattern, they are becoming non-original
+. He warns against "AI slop," which occurs when builders outsource their thinking to LLMs
+.
+Review: Zarna AI
+Zarna AI is described as feeling like "molasses" due to heavy scroll jacking and a lack of useful information
+. The site uses a dynamic video background that makes the navigation menu unreadable
+. While the grainy, zoomed-in visual style is called "fresh," the site lacks meaty content and clear messaging
+.
+Final Takeaways
+Raphael’s main takeaway is that while AI superpowers are wonderful, founders must not outsource their thinking to LLMs
+. A landing page is a customer acquisition channel, not just a "cool thing on the web"
+. Founders must QA everything for bugs or confusing interactions and be intentional about their brand and color palette rather than just accepting whatever the AI "spits out"
