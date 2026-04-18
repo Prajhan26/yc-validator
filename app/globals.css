@@ -92,7 +92,7 @@ textarea {
 .yc-meta-kicker {
   position: absolute;
   left: 50%;
-  top: calc(100% + 1px);
+  top: calc(100% - 7px);
   transform: translateX(-50%);
   color: var(--ink-muted);
   font-size: 9.5px;
