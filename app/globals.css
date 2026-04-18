@@ -9,6 +9,7 @@
   --rule: rgba(92, 84, 67, 0.14);
   --accent: #c45b0a;
   --accent-soft: rgba(196, 91, 10, 0.1);
+  --landing-cta: #ff6600;
   --font-display: "Cormorant Garamond", "Iowan Old Style", Georgia, serif;
   --font-ui: "Avenir Next", Avenir, "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
@@ -64,7 +65,7 @@ textarea {
 
 .yc-landing-card {
   min-height: 100vh;
-  padding: 16px 72px 34px;
+  padding: 20px 76px 42px;
   display: flex;
   flex-direction: column;
 }
@@ -75,7 +76,7 @@ textarea {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-bottom: 22px;
+  padding-bottom: 26px;
   border-bottom: 1px solid rgba(92, 84, 67, 0.05);
 }
 
@@ -85,14 +86,22 @@ textarea {
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  margin-left: auto;
 }
 
 .yc-meta-kicker {
+  position: absolute;
+  left: 50%;
+  top: calc(100% + 1px);
+  transform: translateX(-50%);
   color: var(--ink-muted);
-  font-size: 11px;
+  font-size: 9.5px;
   font-weight: 600;
-  letter-spacing: 0.26em;
+  letter-spacing: 0.32em;
   text-transform: uppercase;
+  white-space: nowrap;
+  text-align: center;
+  opacity: 0.96;
 }
 
 .yc-landing-copy {
@@ -103,25 +112,29 @@ textarea {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 14px;
-  margin-top: -52px;
+  gap: 18px;
+  margin-top: 18px;
   text-align: center;
   width: 100%;
 }
 
 .yc-landing-quote {
   position: relative;
-  max-width: 1280px;
+  max-width: 920px;
   margin: 0;
   color: #3b3d2f;
   font-family: var(--font-display);
-  font-size: clamp(3.2rem, 4.2vw, 4.35rem);
-  font-weight: 700;
-  line-height: 0.92;
-  letter-spacing: -0.05em;
+  font-size: clamp(3.78rem, 5.4vw, 5.45rem);
+  font-weight: 400;
+  line-height: 0.9;
+  letter-spacing: -0.055em;
   text-align: center;
   display: block;
-  padding-left: 0.2em;
+  padding: 0 0.28em;
+}
+
+.yc-landing-quote-emphasis {
+  font-weight: 700;
 }
 
 .yc-soft-caret {
@@ -144,19 +157,24 @@ textarea {
 }
 
 .yc-landing-open-quote,
-.yc-landing-inline-close-quote {
+.yc-landing-close-quote {
   color: rgba(59, 61, 47, 0.85);
-  font-size: 0.46em;
+  font-size: 0.38em;
   line-height: 1;
   display: block;
 }
 
 .yc-landing-open-quote {
   position: absolute;
-  left: 0.06em;
-  top: 0.12em;
-  margin-right: 0;
+  left: 0.02em;
+  top: 0.09em;
   transform: none;
+}
+
+.yc-landing-close-quote {
+  position: absolute;
+  right: 0.05em;
+  bottom: -0.02em;
 }
 
 .yc-landing-quote-content {
@@ -185,31 +203,35 @@ textarea {
   overflow: hidden;
 }
 
-.yc-landing-inline-close-quote {
-  display: inline-block;
-  margin-left: 0.01em;
-  transform: translateY(0.02em);
-}
-
 .yc-landing-subhead {
-  margin: 14px 0 18px;
+  margin: 10px 0 14px;
   color: #67604f;
   font-family: var(--font-display);
-  font-size: clamp(1.18rem, 1.5vw, 1.42rem);
+  font-size: clamp(1.42rem, 1.72vw, 1.8rem);
   font-style: italic;
 }
 
 .yc-primary-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
   border: 0;
-  background: var(--accent);
+  background: var(--landing-cta);
   color: #fffaf1;
-  padding: 14px 24px;
+  padding: 16px 30px;
+  min-width: 268px;
   font-size: 11px;
   font-weight: 700;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.28em;
   text-transform: uppercase;
   cursor: pointer;
   transition: transform 140ms ease, opacity 140ms ease;
+}
+
+.yc-cta-arrow {
+  font-size: 1.18em;
+  line-height: 1;
 }
 
 .yc-primary-cta:hover {
@@ -227,9 +249,10 @@ textarea {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: var(--accent);
+  background: var(--landing-cta);
   color: #fffaf1;
   padding: 11px 22px;
+  margin-top: 8px;
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.22em;
@@ -239,26 +262,62 @@ textarea {
 }
 
 .yc-privacy-line {
-  margin: 10px 0 0;
+  margin: 8px 0 0;
   color: #968f7e;
-  font-size: 11px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 9.5px;
   font-weight: 600;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
 }
 
+.yc-privacy-emphasis {
+  font-weight: 700;
+}
+
+.yc-privacy-lock {
+  position: relative;
+  width: 8px;
+  height: 7px;
+  border: 1.5px solid currentColor;
+  border-radius: 1px;
+  flex: 0 0 auto;
+}
+
+.yc-privacy-lock::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% - 1px);
+  width: 5px;
+  height: 4px;
+  border: 1.5px solid currentColor;
+  border-bottom: 0;
+  border-radius: 5px 5px 0 0;
+  transform: translateX(-50%);
+}
+
 .yc-landing-footer {
-  border-top: 1px solid rgba(92, 84, 67, 0.05);
-  padding-top: 26px;
+  border-top: 1px solid rgba(184, 188, 163, 0.18);
+  padding-top: 30px;
   text-align: center;
 }
 
 .yc-landing-footer p {
-  max-width: 620px;
+  max-width: 640px;
   margin: 0 auto;
   color: var(--ink-muted);
-  font-size: 12px;
-  line-height: 1.65;
+  font-size: 10.5px;
+  line-height: 1.7;
+  letter-spacing: 0.02em;
+  opacity: 0.9;
+}
+
+.yc-landing-footer p + p {
+  margin-top: 22px;
 }
 
 .yc-back-link {
@@ -654,32 +713,238 @@ textarea {
   }
 }
 
-@media (max-width: 640px) {
-  .yc-app-shell {
-    padding: 16px 12px 30px;
+@media (max-width: 767px) {
+  /* Mobile landing — matches Figma (iPhone 14/15 Pro Max, 430px frame) */
+  html,
+  body {
+    background: #fefdf1;
   }
 
-  .yc-landing-card,
+  .yc-app-shell {
+    padding: 0;
+    min-height: 100svh;
+    background: #fefdf1;
+  }
+
+  .yc-card,
+  .yc-review-sheet {
+    background: #fefdf1;
+    min-height: 100svh;
+  }
+
+  /* Landing card: flow layout, Figma paddings */
+  .yc-landing-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100svh;
+    padding: 55px 32px 28px;
+    background: #fefdf1;
+    gap: 0;
+  }
+
+  .yc-landing-texture {
+    display: none;
+  }
+
+  /* Topline kicker */
+  .yc-card-topline {
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+
+  .yc-card-topline-actions,
+  .yc-top-cta {
+    display: none !important;
+  }
+
+  .yc-meta-kicker {
+    display: block;
+    max-width: none;
+    color: #626651;
+    font-size: 8px;
+    font-weight: 600;
+    letter-spacing: 0.24em;
+    line-height: 1.2;
+    text-align: center;
+    text-transform: uppercase;
+    text-shadow: 0 4px 4px rgba(0, 0, 0, 0.12);
+    white-space: nowrap;
+    opacity: 0.95;
+  }
+
+  .yc-hero-eyebrow {
+    display: none;
+  }
+
+  /* Headline copy block */
+  .yc-landing-copy {
+    width: 100%;
+    margin: 0 auto;
+    flex: initial;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: center;
+    padding: 62px 0 0;
+    gap: 18px;
+    min-height: 0;
+  }
+
+  .yc-landing-quote {
+    width: 100%;
+    max-width: 367px;
+    margin: 0 auto;
+    color: #363a27;
+    font-family: var(--font-display);
+    font-size: clamp(2.6rem, 11.6vw, 3.125rem); /* caps at 50px */
+    font-weight: 400;
+    line-height: 1.15;
+    letter-spacing: -0.048em; /* -2.4px at 50px */
+    text-align: center;
+    padding-left: 0;
+  }
+
+  .yc-landing-quote-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .yc-landing-open-quote,
+  .yc-landing-close-quote {
+    display: inline;
+    font-size: inherit;
+    position: static;
+    opacity: 0.9;
+  }
+
+  /* Let the typed animation keep working on mobile:
+     templates reserve height, typed lines overlay normally */
+  .yc-landing-quote-line {
+    position: relative;
+    display: block;
+    white-space: nowrap;
+  }
+
+  .yc-landing-subhead {
+    display: block;
+    max-width: none;
+    margin: 0 0 8px;
+    color: #67604f;
+    font-family: var(--font-display);
+    font-size: 0.84rem;
+    font-style: italic;
+    line-height: 1.3;
+    white-space: nowrap;
+    text-align: center;
+  }
+
+  /* Primary CTA */
+  .yc-primary-cta {
+    width: 334px;
+    max-width: 100%;
+    min-height: 52px;
+    margin-top: 0;
+    padding: 16px 32px;
+    background: var(--landing-cta);
+    border-radius: 2px;
+    color: #ffffff;
+    font-family: var(--font-ui);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.35em; /* 4.2px */
+    line-height: 20px;
+    text-transform: uppercase;
+    box-shadow: none;
+    gap: 8px;
+    white-space: nowrap;
+  }
+
+  .yc-cta-arrow {
+    font-size: 1em;
+  }
+
+  /* Privacy line */
+  .yc-privacy-line {
+    margin-top: 0;
+    color: rgba(98, 102, 81, 0.8);
+    font-family: var(--font-ui);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.1em; /* 1.2px */
+    line-height: 16px;
+    text-transform: uppercase;
+    gap: 6px;
+    opacity: 1;
+  }
+
+  .yc-privacy-line-mobile {
+    margin: 0 0 26px;
+    justify-content: center;
+    align-items: flex-start;
+    font-weight: 700;
+  }
+
+  .yc-privacy-line-mobile .yc-privacy-lock {
+    margin-top: 2px;
+    flex: 0 0 auto;
+  }
+
+  .yc-privacy-line-mobile span:last-child {
+    display: inline-block;
+    max-width: 27ch;
+    text-align: center;
+  }
+
+  .yc-privacy-lock {
+    width: 9px;
+    height: 12px;
+  }
+
+  /* Footer / credibility block */
+  .yc-landing-footer {
+    width: 100%;
+    max-width: 367px;
+    margin: 36px auto 0;
+    padding: 32px 0 10px;
+    border-top: 1px solid rgba(184, 188, 163, 0.2);
+    text-align: center;
+  }
+
+  .yc-trust-label {
+    display: none !important;
+  }
+
+  .yc-landing-footer p {
+    max-width: 367px;
+    margin: 0 auto;
+    color: #000000 !important;
+    font-family: var(--font-ui);
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0.029em; /* 0.35px */
+    line-height: 22.75px;
+    opacity: 1;
+  }
+
+  .yc-landing-footer > p:first-of-type {
+    margin-top: 8px;
+  }
+
+  .yc-landing-footer p + p {
+    margin-top: 34px;
+  }
+
+  /* Application + review screens keep sane mobile padding */
   .yc-application-card,
   .yc-review-sheet {
     padding-left: 18px;
     padding-right: 18px;
-  }
-
-  .yc-card-topline {
-    align-items: flex-start;
-    gap: 16px;
-    flex-direction: column;
-  }
-
-  .yc-landing-copy {
-    margin-top: 0;
-    min-height: auto;
-    padding: 40px 0 30px;
-  }
-
-  .yc-landing-quote {
-    font-size: clamp(2.55rem, 12vw, 3.6rem);
   }
 
   .yc-review-actions {
