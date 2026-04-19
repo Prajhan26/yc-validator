@@ -14,6 +14,19 @@ const SECTION_IDS = [
   "expertise",
 ] as const;
 
+const SUBMIT_PROGRESS_STEPS = [
+  "Analyzing your application draft...",
+  "Reading between the founder lines...",
+  "Looking for the real problem...",
+  "Testing how urgent the pain feels...",
+  "Checking for earned insight...",
+  "Finding your sharpest signal...",
+  "Separating traction from noise...",
+  "Stress-testing the YC story...",
+  "Preparing the honest review...",
+  "Almost there. Keep this tab open...",
+] as const;
+
 type Stage = "" | "Idea" | "MVP" | "Users" | "Revenue";
 type Binary = "" | "Yes" | "No";
 type SectionId = (typeof SECTION_IDS)[number];
@@ -30,6 +43,8 @@ export default function ApplyPage() {
   const [competitors, setCompetitors] = useState("");
   const [expertise, setExpertise] = useState<Binary>("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitProgress, setSubmitProgress] = useState(0);
+  const [submitStepIndex, setSubmitStepIndex] = useState(0);
   const [errorMessage, setErrorMessage] = useState("");
 
   const showWorkHistory = stage === "Users" || stage === "Revenue";
@@ -40,6 +55,32 @@ export default function ApplyPage() {
     sessionStorage.removeItem("yc-validator:last-review");
     sessionStorage.removeItem("yc-validator:last-review-token");
   }, []);
+
+  useEffect(() => {
+    if (!isSubmitting) {
+      return;
+    }
+
+    const progressTimer = window.setInterval(() => {
+      setSubmitProgress((current) => {
+        if (current >= 92) {
+          return current;
+        }
+
+        const increment = current < 48 ? 7 : current < 76 ? 4 : 2;
+        return Math.min(current + increment, 92);
+      });
+    }, 520);
+
+    const phraseTimer = window.setInterval(() => {
+      setSubmitStepIndex((current) => (current + 1) % SUBMIT_PROGRESS_STEPS.length);
+    }, 1400);
+
+    return () => {
+      window.clearInterval(progressTimer);
+      window.clearInterval(phraseTimer);
+    };
+  }, [isSubmitting]);
 
   const startupDescription = [
     `Company: ${company}`,
@@ -96,6 +137,8 @@ export default function ApplyPage() {
     }
 
     setErrorMessage("");
+    setSubmitProgress(8);
+    setSubmitStepIndex(0);
     setIsSubmitting(true);
 
     try {
@@ -122,6 +165,7 @@ export default function ApplyPage() {
       }
 
       const reviewToken = `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+      setSubmitProgress(100);
       sessionStorage.setItem("yc-validator:last-input", JSON.stringify(payload));
       sessionStorage.setItem("yc-validator:last-review", JSON.stringify(data));
       sessionStorage.setItem("yc-validator:last-review-token", reviewToken);
@@ -134,7 +178,7 @@ export default function ApplyPage() {
 
   return (
     <main className="yc-app-shell">
-      <div className="yc-card yc-application-card">
+      <div className={`yc-card yc-application-card${isSubmitting ? " is-submitting" : ""}`}>
         <Link href="/" className="yc-back-link">
           ‹ Back
         </Link>
@@ -298,6 +342,33 @@ export default function ApplyPage() {
           </form>
         </div>
       </div>
+
+      {isSubmitting ? (
+        <div
+          className="yc-submit-overlay"
+          role="status"
+          aria-live="polite"
+          aria-label={`Submitting application, ${submitProgress}% complete`}
+        >
+          <div className="yc-submit-panel">
+            <p className="yc-submit-kicker">Process initiated</p>
+            <p className="yc-submit-headline">{SUBMIT_PROGRESS_STEPS[submitStepIndex]}</p>
+
+            <div className="yc-submit-progress-track" aria-hidden="true">
+              <span style={{ width: `${submitProgress}%` }} />
+            </div>
+
+            <div className="yc-submit-meta">
+              <span>Reviewer pass in progress</span>
+              <strong>{submitProgress}% complete</strong>
+            </div>
+
+            <p className="yc-submit-note">
+              Please keep this tab open. Your YC-style review is being generated.
+            </p>
+          </div>
+        </div>
+      ) : null}
     </main>
   );
 }
