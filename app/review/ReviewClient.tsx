@@ -9,12 +9,12 @@ const SCORE_LABELS: Array<{
   key: keyof EvalOutput["dimension_scores"];
   label: string;
 }> = [
-  { key: "problem_quality", label: "Problem Quality" },
-  { key: "founder_fit", label: "Founder Fit" },
-  { key: "solution_clarity", label: "Solution Clarity" },
-  { key: "market_potential", label: "Market Potential" },
-  { key: "traction_and_evidence", label: "Traction Evidence" },
-];
+    { key: "problem_quality", label: "Problem Quality" },
+    { key: "founder_fit", label: "Founder Fit" },
+    { key: "solution_clarity", label: "Solution Clarity" },
+    { key: "market_potential", label: "Market Potential" },
+    { key: "traction_and_evidence", label: "Traction Evidence" },
+  ];
 
 export default function ReviewClient() {
   const router = useRouter();
@@ -83,12 +83,14 @@ export default function ReviewClient() {
               <div key={item.label} className="yc-score-row">
                 <div className="yc-score-row-top">
                   <h4>{item.label}</h4>
-                  <span>{item.score}/10</span>
-                </div>
-                <div className="yc-score-bar" aria-hidden="true">
-                  {Array.from({ length: 10 }, (_, index) => (
-                    <span key={index} className={index < item.score ? "is-filled" : ""} />
-                  ))}
+                  <div className="flex flex-col items-end">
+                    <span className="mb-1">{item.score}/10</span>
+                    <div className="yc-score-bar" aria-hidden="true">
+                      {Array.from({ length: 10 }, (_, index) => (
+                        <span key={index} className={index < item.score ? "is-filled" : ""} />
+                      ))}
+                    </div>
+                  </div>
                 </div>
                 <p className="yc-score-note">{item.note}</p>
                 <p className="yc-score-confidence">{item.confidence}</p>
