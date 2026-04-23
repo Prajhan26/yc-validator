@@ -3,8 +3,33 @@ import Script from "next/script";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Idea Validation",
-  description: "Validate startup and product ideas with evidence, not guesswork.",
+  metadataBase: new URL("https://notycombinator.com"),
+  title: "notycombinator - Practice YC applications",
+  description: "Mock YC application reviews before you apply for real.",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "notycombinator - Practice YC applications",
+    description: "Mock YC application reviews before you apply for real.",
+    url: "/",
+    siteName: "notycombinator",
+    images: [
+      {
+        url: "/preview.png",
+        width: 1200,
+        height: 630,
+        alt: "notycombinator preview card",
+      },
+    ],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "notycombinator - Practice YC applications",
+    description: "Mock YC application reviews before you apply for real.",
+    images: ["/preview.png"],
+  },
 };
 
 const gaId = process.env.NEXT_PUBLIC_GA_ID;
