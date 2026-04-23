@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     siteName: "notycombinator",
     images: [
       {
-        url: "/preview.png",
+        url: "/preview.png?v=2",
         width: 1200,
         height: 630,
         alt: "notycombinator preview card",
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "notycombinator - Practice YC applications",
     description: "Mock YC application reviews before you apply for real.",
-    images: ["/preview.png"],
+    images: ["/preview.png?v=2"],
   },
 };
 
