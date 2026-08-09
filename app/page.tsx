@@ -134,17 +134,7 @@ export default function Home() {
           className="yc-landing-texture absolute inset-0 z-0 pointer-events-none overflow-hidden opacity-30 mix-blend-multiply"
           aria-hidden="true"
         >
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="auto"
-            className="w-full h-full object-cover"
-          >
-            <source src="/video/stitch-texture.webm" type="video/webm" />
-            <source src="/video/stitch-texture.mp4" type="video/mp4" />
-          </video>
+          <div className="yc-landing-texture-bg" aria-hidden="true" />
         </div>
 
         <header className="yc-card-topline">

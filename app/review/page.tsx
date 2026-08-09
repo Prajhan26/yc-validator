@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import { Suspense } from "react";
 import ReviewClient from "./ReviewClient";
 
 export default async function ReviewPage(props: PageProps<"/review">) {
@@ -8,5 +9,9 @@ export default async function ReviewPage(props: PageProps<"/review">) {
     redirect("/apply");
   }
 
-  return <ReviewClient />;
+  return (
+    <Suspense fallback={null}>
+      <ReviewClient />
+    </Suspense>
+  );
 }

@@ -39,6 +39,16 @@ body {
   font-family: var(--font-ui);
 }
 
+.yc-landing-texture-bg {
+  width: 100%;
+  height: 100%;
+  background:
+    radial-gradient(120% 90% at 12% 8%, rgba(196, 91, 10, 0.12) 0%, transparent 55%),
+    radial-gradient(90% 80% at 88% 88%, rgba(120, 92, 200, 0.08) 0%, transparent 60%),
+    repeating-linear-gradient(45deg, rgba(92, 84, 67, 0.04) 0 2px, transparent 2px 14px);
+}
+
+
 button,
 input,
 select,
@@ -775,6 +785,163 @@ textarea {
   cursor: pointer;
 }
 
+/* ── Voice feedback widget ─────────────────────────────────────────────── */
+.yc-voice-widget {
+  margin-top: 18px;
+  padding: 18px 20px;
+  border: 1px solid rgba(90, 83, 69, 0.12);
+  background: #f3eedf;
+}
+
+.yc-voice-widget-label {
+  margin: 0 0 6px;
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.yc-voice-widget-note {
+  margin: 0 0 14px;
+  color: var(--ink-muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.yc-voice-start,
+.yc-voice-stop {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  background: var(--landing-cta);
+  color: #fffaf1;
+  padding: 12px 22px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 140ms ease, opacity 140ms ease;
+}
+
+.yc-voice-start:hover,
+.yc-voice-stop:hover {
+  opacity: 0.94;
+  transform: translateY(-1px);
+}
+
+.yc-voice-stop {
+  background: #8d3318;
+}
+
+.yc-voice-status {
+  margin: 0;
+  color: var(--ink-muted);
+  font-size: 13px;
+  font-style: italic;
+}
+
+/* ── Call booking form ─────────────────────────────────────────────────── */
+.yc-booking-form {
+  margin-top: 18px;
+  padding: 18px 20px;
+  border: 1px solid rgba(90, 83, 69, 0.12);
+  background: #f3eedf;
+}
+
+.yc-booking-label {
+  margin: 0 0 6px;
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.yc-booking-note {
+  margin: 0 0 14px;
+  color: var(--ink-muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.yc-booking-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.yc-booking-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.yc-booking-field label {
+  color: var(--ink-muted);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.yc-booking-field input,
+.yc-booking-field select {
+  width: 100%;
+  border: 1px solid rgba(90, 83, 69, 0.14);
+  background: #f7f2e4;
+  color: var(--ink);
+  padding: 10px 14px;
+  outline: 0;
+}
+
+.yc-booking-field input::placeholder {
+  color: #b0a99a;
+}
+
+.yc-booking-submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  background: var(--landing-cta);
+  color: #fffaf1;
+  padding: 12px 22px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 140ms ease, opacity 140ms ease;
+}
+
+.yc-booking-submit:hover {
+  opacity: 0.94;
+  transform: translateY(-1px);
+}
+
+.yc-booking-submit:disabled {
+  cursor: wait;
+  opacity: 0.7;
+  transform: none;
+}
+
+.yc-booking-success {
+  margin: 0 0 14px;
+  color: #3f6b3f;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+@media (max-width: 900px) {
+  .yc-booking-fields {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (max-width: 900px) {
   .yc-application-layout {
     grid-template-columns: 1fr;
@@ -1113,3 +1280,187 @@ textarea {
     background: #fefdf1;
   }
 }
+
+/* ── Dynamic Voice Agent & Custom Booking Styles ─────────────────────────── */
+.yc-voice-header,
+.yc-booking-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.yc-voice-badge,
+.yc-booking-badge {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 12px;
+  background: rgba(169, 72, 11, 0.08);
+  color: #a9480b;
+  border: 1px solid rgba(169, 72, 11, 0.2);
+}
+
+.yc-voice-badge-in-call {
+  background: rgba(16, 185, 129, 0.12);
+  color: #047857;
+  border-color: rgba(16, 185, 129, 0.3);
+  animation: pulse-green 2s infinite;
+}
+
+.yc-voice-badge-connecting {
+  background: rgba(245, 158, 11, 0.12);
+  color: #b45309;
+  border-color: rgba(245, 158, 11, 0.3);
+}
+
+.yc-voice-badge-error {
+  background: rgba(220, 38, 38, 0.1);
+  color: #b91c1c;
+  border-color: rgba(220, 38, 38, 0.25);
+}
+
+.yc-voice-badge-ended {
+  background: rgba(100, 116, 139, 0.12);
+  color: #475569;
+  border-color: rgba(100, 116, 139, 0.25);
+}
+
+@keyframes pulse-green {
+  0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
+  70% { box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+.yc-voice-active-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  background: rgba(254, 253, 241, 0.9);
+  border: 1px solid rgba(169, 72, 11, 0.2);
+  border-radius: 12px;
+  margin-top: 14px;
+}
+
+.yc-voice-indicator-container {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.yc-voice-avatar {
+  position: relative;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #a9480b;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+
+.yc-voice-avatar.is-speaking {
+  background: #2563eb;
+}
+
+.yc-voice-pulse-ring {
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 3px solid currentColor;
+  transition: transform 100ms ease, opacity 100ms ease;
+  pointer-events: none;
+}
+
+.yc-voice-audio-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  height: 40px;
+}
+
+.yc-voice-bar {
+  width: 6px;
+  background: var(--landing-cta, #a9480b);
+  border-radius: 3px;
+  transition: height 80ms ease;
+  min-height: 8px;
+}
+
+.yc-voice-transcript-box {
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid #e2dcd0;
+  border-radius: 8px;
+  padding: 12px 14px;
+  font-size: 14px;
+}
+
+.yc-voice-transcript-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 4px;
+}
+
+.yc-voice-transcript-text {
+  margin: 0;
+  color: #1f2118;
+  font-style: italic;
+}
+
+.yc-voice-prompt-hint {
+  font-size: 13px;
+  color: var(--ink-muted);
+  margin: 0;
+}
+
+.yc-time-field-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.yc-toggle-time-mode {
+  background: none;
+  border: none;
+  color: #a9480b;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
+}
+
+.yc-custom-time-input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #d4cebe;
+  border-radius: 6px;
+  font-size: 14px;
+  background: #ffffff;
+}
+
+.yc-booking-success-box {
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-top: 12px;
+}
+
+.yc-booking-success {
+  margin: 0;
+  color: #047857;
+  font-size: 14px;
+  line-height: 1.5;
+}
+

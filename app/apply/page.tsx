@@ -4,6 +4,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import type { EvalInput, EvalOutput } from "../../lib/evaluator/schema";
+import VoiceFeedbackWidget from "../../components/VoiceFeedbackWidget";
+import CallBookingForm from "../../components/CallBookingForm";
 
 const SECTION_IDS = [
   "company",
@@ -149,18 +151,29 @@ export default function ApplyPage() {
         is_full_time: showFullTime ? fullTime === "Yes" : true,
       };
 
-      const response = await fetch("/api/evaluate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 45000);
 
-      const data = (await response.json()) as EvalOutput | { error?: string };
+      let response: Response;
+      try {
+        response = await fetch("/api/evaluate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+          signal: controller.signal,
+        });
+      } finally {
+        clearTimeout(timeoutId);
+      }
+
+      const data = (await response.json()) as EvalOutput | { error?: string; details?: string };
       const maybeError = "error" in data ? data.error : undefined;
 
       if (!response.ok || maybeError) {
-        setErrorMessage(maybeError ?? "We couldn't generate the review right now.");
+        const errorText = maybeError ?? "We couldn't generate the review right now. Please check your API credentials or try again.";
+        setErrorMessage(errorText);
         setIsSubmitting(false);
+        setSubmitProgress(0);
         return;
       }
 
@@ -170,9 +183,14 @@ export default function ApplyPage() {
       sessionStorage.setItem("yc-validator:last-review", JSON.stringify(data));
       sessionStorage.setItem("yc-validator:last-review-token", reviewToken);
       router.push(`/review?rid=${reviewToken}`);
-    } catch {
-      setErrorMessage("We couldn't generate the review right now.");
+    } catch (err: unknown) {
+      const isAbort = err instanceof Error && err.name === "AbortError";
+      const msg = isAbort
+        ? "Evaluation request timed out after 45 seconds. Please try again."
+        : "We couldn't generate the review right now. Please check your connection.";
+      setErrorMessage(msg);
       setIsSubmitting(false);
+      setSubmitProgress(0);
     }
   };
 
@@ -208,19 +226,20 @@ export default function ApplyPage() {
             ))}
           </nav>
 
-          <form className="yc-form-column" onSubmit={handleSubmit}>
-            <section
-              id="company"
-              className="yc-form-section"
-              onFocusCapture={() => setActiveSection("company")}
-            >
-              <h3>Describe what your company does or is going to make.</h3>
-              <textarea
-                value={company}
-                onChange={(event) => setCompany(event.target.value)}
-                placeholder="We are building..."
-              />
-            </section>
+          <div className="yc-form-column">
+            <form className="yc-form-column" onSubmit={handleSubmit}>
+              <section
+                id="company"
+                className="yc-form-section"
+                onFocusCapture={() => setActiveSection("company")}
+              >
+                <h3>Describe what your company does or is going to make.</h3>
+                <textarea
+                  value={company}
+                  onChange={(event) => setCompany(event.target.value)}
+                  placeholder="We are building..."
+                />
+              </section>
 
             <section
               id="problem"
@@ -339,7 +358,34 @@ export default function ApplyPage() {
                 Submit for Review
               </button>
             </div>
-          </form>
+            </form>
+
+            {/*
+              The voice widget and booking form intentionally live OUTSIDE the
+              application <form> element. They are interactive client components
+              with their own buttons/inputs — nesting them inside the form would
+              create hydration issues and trigger accidental form submits.
+            */}
+            <section id="voice" className="yc-form-section">
+              <div className="yc-progress-row">
+                <div>
+                  <h3>Prefer to talk it through?</h3>
+                  <p>Get voice feedback on your idea from our YC-informed reviewer.</p>
+                </div>
+              </div>
+              <VoiceFeedbackWidget />
+            </section>
+
+            <section id="booking" className="yc-form-section">
+              <div className="yc-progress-row">
+                <div>
+                  <h3>Want us to call you?</h3>
+                  <p>Book a voice review call and we&rsquo;ll ring you at your preferred time.</p>
+                </div>
+              </div>
+              <CallBookingForm />
+            </section>
+          </div>
         </div>
       </div>
 
